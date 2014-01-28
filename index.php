@@ -6,6 +6,14 @@
  * User verification by knowledge testing. *
  * * * * * * * * * * * * * * * * * * * * * */
 
+if (isset($_GET['reset']))
+{
+    session_start();
+    session_destroy();
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    die();
+}
+
 require_once 'engine/qualicate/Autoloader.php';
 spl_autoload_register(array(new \qualicate\Autoloader('engine'), 'load'));
 spl_autoload_register(array(new \qualicate\Autoloader('tests'), 'load'));
