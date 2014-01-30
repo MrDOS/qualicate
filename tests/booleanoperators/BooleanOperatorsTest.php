@@ -4,23 +4,11 @@ class BooleanOperatorsTest implements \qualicate\Test
 {
     const PARAMETER_SETS = 4;
 
-    private $example;
     private $parameters = [];
     private $concatenation = '';
 
     public function __construct()
     {
-        for ($i = 0; $i < self::PARAMETER_SETS; $i++)
-            $this->example .= rand(0, 1);
-
-        if (isset($_SESSION['bot_parameters'])
-            && isset($_SESSION['bot_concatenation']))
-        {
-            $this->parameters = $_SESSION['bot_parameters'];
-            $this->concatenation = $_SESSION['bot_concatenation'];
-            return;
-        }
-
         for ($i = 0; $i < self::PARAMETER_SETS; $i++)
         {
             $p = rand(0, 1);
@@ -30,12 +18,14 @@ class BooleanOperatorsTest implements \qualicate\Test
             $this->parameters[] = [$p, $q, $r, $s];
             $this->concatenation .= (int) self::f($p, $q, $r, $s);
         }
-        $_SESSION['bot_parameters'] = $this->parameters;
-        $_SESSION['bot_concatenation'] = $this->concatenation;
     }
 
     public function description($post_url)
     {
+        $example = '';
+        for ($i = 0; $i < self::PARAMETER_SETS; $i++)
+            $example .= rand(0, 1);
+
         $description = <<<HTML
 <p>Given the function</p>
 <blockquote><em>f</em>(<em>p</em>, <em>q</em>, <em>r</em>, <em>s</em>) =
@@ -74,7 +64,7 @@ HTML;
     </tbody>
 </table>
 <form action="$post_url" method="post">
-<input type="text" name="concatenation" placeholder="Example: $this->example">
+<input type="text" name="concatenation" placeholder="Example: $example">
 <input type="submit" value="Submit">
 </form>
 <!-- The answer is $this->concatenation. -->

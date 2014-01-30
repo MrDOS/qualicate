@@ -15,18 +15,23 @@ class TestManager
 
         session_start();
 
-        if (!isset($_SESSION['_q_test']))
-            $_SESSION['_q_test'] = $this->tests[0];
+        if (!isset($_SESSION['_q_test']) && count($this->tests) > 0)
+            $this->instantiateCurrentTest($this->tests[0]);
+    }
+
+    private function instantiateCurrentTest($test_name)
+    {
+        $_SESSION['_q_test'] = new $test_name;
     }
 
     public function currentTest()
     {
-        return new $_SESSION['_q_test'];
+        return $_SESSION['_q_test'];
     }
 
     private function currentTestIndex()
     {
-        return array_search($_SESSION['_q_test'], $this->tests);
+        return array_search(get_class($_SESSION['_q_test']), $this->tests);
     }
 
     public function hasNextTest()
@@ -43,7 +48,7 @@ class TestManager
             || $current_test_index >= count($this->tests) - 1)
             return null;
 
-        $_SESSION['_q_test'] = $this->tests[$current_test_index + 1];
+        $this->instantiateCurrentTest($this->tests[$current_test_index + 1]);
         return $this->currentTest();
     }
 }
