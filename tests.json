@@ -1,4 +1,5 @@
 [
     "major\\MajorTest",
+    "hunting\\HuntingTest",
     "booleanoperators\\BooleanOperatorsTest"
 ]
