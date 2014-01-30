@@ -10,7 +10,7 @@ if (isset($_GET['reset']))
 {
     session_start();
     session_destroy();
-    header('Location: ' . $_SERVER['PHP_SELF']);
+    header('Location: .');
     die();
 }
 
@@ -37,7 +37,7 @@ if (!empty($_POST))
             $test_manager->nextTest();
 
             if (empty($success_message))
-                header('Location: ' . $_SERVER['PHP_SELF']);
+                header('Location: ' . $_SERVER['REQUEST_URI']);
         }
         else
         {
@@ -53,7 +53,7 @@ if (!empty($_POST))
 }
 else
 {
-    $body = $current_test->description($_SERVER['PHP_SELF']);
+    $body = $current_test->description($_SERVER['REQUEST_URI']);
 }
 
 $page->set('body', $body);
